@@ -1,13 +1,13 @@
 import httpx
 import threading
 
-def get_ip_by_httpbin(client: httpx.Client):
+def get_ip_by_httpbin(client: httpx.Client) -> None:
     """通过 httpbin.org 提供的接口获取 IP address"""
     url = httpx.URL("https://httpbin.org/ip")
     r = client.get(url)
     print(f'HTTPBin: {r.json().get("origin")}')
 
-def get_ip_by_whatismyip(client: httpx.Client):
+def get_ip_by_whatismyip(client: httpx.Client) -> None:
     """通过 whatismyip.com 提供的接口获取 IP address"""
     url = httpx.URL("https://api.whatismyip.com/hp.php")
 
@@ -33,10 +33,15 @@ def get_ip_by_whatismyip(client: httpx.Client):
 
 def main():
     with httpx.Client() as client:
+        # 创建线程
         t1 = threading.Thread(target=get_ip_by_httpbin, args=(client,))
         t2 = threading.Thread(target=get_ip_by_whatismyip, args=(client,))
+
+        # 启动线程
         t1.start()
         t2.start()
+
+        # 主线程等待所有线程执行完毕
         t1.join()
         t2.join()
 
