@@ -7,4 +7,5 @@ requires-python = ">=3.10.11"
 dependencies = [
     "httpx[cli]>=0.28.1",
     "ipython>=8.39.0",
+    "lxml>=6.0.2",
 ]
