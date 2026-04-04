@@ -1,6 +1,12 @@
 import httpx
 import threading
 
+def get_ip_by_ipin(client: httpx.Client) -> None:
+    """通过 ipin.io 提供的接口获取 IP address"""
+    url = httpx.URL("https://ipin.io/_inquiry/v2/get_client_ip")
+    r = client.get(url)
+    print(f'IPIN: {r.json().get("ip")}')
+
 def get_ip_by_httpbin(client: httpx.Client) -> None:
     """通过 httpbin.org 提供的接口获取 IP address"""
     url = httpx.URL("https://httpbin.org/ip")
@@ -36,14 +42,17 @@ def main():
         # 创建线程
         t1 = threading.Thread(target=get_ip_by_httpbin, args=(client,))
         t2 = threading.Thread(target=get_ip_by_whatismyip, args=(client,))
+        t3 = threading.Thread(target=get_ip_by_ipin, args=(client,))
 
         # 启动线程
         t1.start()
         t2.start()
+        t3.start()
 
         # 主线程等待所有线程执行完毕
         t1.join()
         t2.join()
+        t3.join()
 
 if __name__ == "__main__":
     main()
