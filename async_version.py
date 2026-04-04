@@ -1,6 +1,12 @@
 import httpx
 import asyncio
 
+async def get_ip_by_ipin(async_client: httpx.AsyncClient) -> None:
+    """通过 ipin.io 提供的接口获取 IP address"""
+    url = httpx.URL("https://ipin.io/_inquiry/v2/get_client_ip")
+    r = await async_client.get(url)
+    print(f'IPIN: {r.json().get("ip")}')
+
 async def get_ip_by_httpbin(async_client: httpx.AsyncClient) -> None:
     """通过 httpbin.org 提供的接口获取 IP address"""
     url = httpx.URL("https://httpbin.org/ip")
@@ -36,10 +42,12 @@ async def main():
         # 创建任务（task被创建之后就会启动，这一点和线程不同）
         task1 = asyncio.create_task(get_ip_by_whatismyip(async_client))
         task2 = asyncio.create_task(get_ip_by_httpbin(async_client))
+        task3 = asyncio.create_task(get_ip_by_ipin(async_client))
 
         # 主线程等待所有任务执行完毕
         await task1
         await task2
+        await task3
 
 if __name__ == "__main__":
     asyncio.run(main())
