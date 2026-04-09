@@ -56,20 +56,8 @@ def get_ip_by_whatismyip(client: httpx.Client) -> None:
 
     # headers 是必要的（copyed from Chrome DevTools）
     headers = {
-        "Host": "api.whatismyip.com",
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:149.0) Gecko/20100101 Firefox/149.0",
-        "Accept": "*/*",
-        "Accept-Language": "zh-CN,en-US;q=0.9",
-        "Accept-Encoding": "gzip, deflate, br, zstd",
-        "Referer": "https://www.whatismyip.com/",
         "Origin": "https://www.whatismyip.com",
-        "Connection": "keep-alive",
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-site",
-        "Priority": "u=4",
-        "Pragma": "no-cache",
-        "Cache-Control": "no-cache",
     }
     r = client.post(url, headers=headers)
     print(f'{"WhatISMyIP":<{LENGTH}}: {r.json().get("ip")}', flush=True)
