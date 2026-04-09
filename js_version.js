@@ -1,6 +1,6 @@
 /*通过 ipin.io 获取 IP*/
 async function getIpByIpIn() {
-    const url = "http://ipin.io/_inquiry/v2/get_client_ip";
+    const url = "https://ipin.io/_inquiry/v2/get_client_ip";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -12,7 +12,7 @@ async function getIpByIpIn() {
 
 /*通过 httpbin.org 获取 IP*/
 async function getIpByHttpBin() {
-    const url = "http://httpbin.org/ip";
+    const url = "https://httpbin.org/ip";
     try {
         const response = await fetch(url);
         const data = await response.json();
