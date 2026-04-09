@@ -1,7 +1,7 @@
 import httpx
 import asyncio
 
-LENGTH: int = 10  # LENGTH = max(len(authority) for authority in ['ININ', 'HTTPBIN', 'WHATISMYIP'])
+LENGTH: int = 10  # LENGTH = max(len(authority) for authority in ['IPIN', 'HTTPBIN', 'WHATISMYIP'])
 
 async def get_ip_by_ipin(async_client: httpx.AsyncClient) -> None:
     """通过 ipin.io 提供的接口获取 IP address"""
