@@ -1,17 +1,19 @@
 import httpx
 import asyncio
 
+LENGTH: int = 10  # LENGTH = max(len(authority) for authority in ['ININ', 'HTTPBIN', 'WHATISMYIP'])
+
 async def get_ip_by_ipin(async_client: httpx.AsyncClient) -> None:
     """通过 ipin.io 提供的接口获取 IP address"""
     url = httpx.URL("https://ipin.io/_inquiry/v2/get_client_ip")
     r = await async_client.get(url)
-    print(f'IPIN: {r.json().get("ip")}')
+    print(f'{"IPIN":<{LENGTH}}: {r.json().get("ip")}')
 
 async def get_ip_by_httpbin(async_client: httpx.AsyncClient) -> None:
     """通过 httpbin.org 提供的接口获取 IP address"""
     url = httpx.URL("https://httpbin.org/ip")
     r = await async_client.get(url)
-    print(f'HTTPBin: {r.json().get("origin")}')
+    print(f'{"HTTPBIN":<{LENGTH}}: {r.json().get("origin")}')
 
 async def get_ip_by_whatismyip(async_client: httpx.AsyncClient) -> None:
     """通过 whatismyip.com 提供的接口获取 IP address"""
@@ -35,19 +37,17 @@ async def get_ip_by_whatismyip(async_client: httpx.AsyncClient) -> None:
         "Cache-Control": "no-cache",
     }
     r = await async_client.post(url, headers=headers)
-    print(f'WhatISMyIP: {r.json().get("ip")}')
+    print(f'{"WHATISMYIP":<{LENGTH}}: {r.json().get("ip")}')
 
 async def main():
     async with httpx.AsyncClient() as async_client:
-        # 创建任务（task被创建之后就会启动，这一点和线程不同）
-        task1 = asyncio.create_task(get_ip_by_whatismyip(async_client))
-        task2 = asyncio.create_task(get_ip_by_httpbin(async_client))
-        task3 = asyncio.create_task(get_ip_by_ipin(async_client))
-
-        # 主线程等待所有任务执行完毕
-        await task1
-        await task2
-        await task3
+        # gather 会自动将协程（Coroutine）封装成任务并并发运行
+        # 它会等待所有传入的协程全部完成后才继续向下执行
+        await asyncio.gather(
+            get_ip_by_ipin(async_client),
+            get_ip_by_httpbin(async_client),
+            get_ip_by_whatismyip(async_client),
+        )
 
 if __name__ == "__main__":
     asyncio.run(main())
