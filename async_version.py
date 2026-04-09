@@ -7,13 +7,13 @@ async def get_ip_by_ipin(async_client: httpx.AsyncClient) -> None:
     """通过 ipin.io 提供的接口获取 IP address"""
     url = httpx.URL("https://ipin.io/_inquiry/v2/get_client_ip")
     r = await async_client.get(url)
-    print(f'{"IPIN":<{LENGTH}}: {r.json().get("ip")}')
+    print(f'{"IPIN":<{LENGTH}}: {r.json().get("ip")}', flush=True)
 
 async def get_ip_by_httpbin(async_client: httpx.AsyncClient) -> None:
     """通过 httpbin.org 提供的接口获取 IP address"""
     url = httpx.URL("https://httpbin.org/ip")
     r = await async_client.get(url)
-    print(f'{"HTTPBIN":<{LENGTH}}: {r.json().get("origin")}')
+    print(f'{"HTTPBIN":<{LENGTH}}: {r.json().get("origin")}', flush=True)
 
 async def get_ip_by_whatismyip(async_client: httpx.AsyncClient) -> None:
     """通过 whatismyip.com 提供的接口获取 IP address"""
@@ -37,7 +37,7 @@ async def get_ip_by_whatismyip(async_client: httpx.AsyncClient) -> None:
         "Cache-Control": "no-cache",
     }
     r = await async_client.post(url, headers=headers)
-    print(f'{"WHATISMYIP":<{LENGTH}}: {r.json().get("ip")}')
+    print(f'{"WHATISMYIP":<{LENGTH}}: {r.json().get("ip")}', flush=True)
 
 async def main():
     async with httpx.AsyncClient() as async_client:
