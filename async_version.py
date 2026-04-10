@@ -28,7 +28,7 @@ async def get_ip_by_whatismyip(async_client: httpx.AsyncClient) -> None:
     print(f'{"WHATISMYIP":<{LENGTH}}: {r.json().get("ip")}', flush=True)
 
 async def main():
-    async with httpx.AsyncClient() as async_client:
+    async with httpx.AsyncClient(timeout=5.0) as async_client:
         # gather 会自动将协程（Coroutine）封装成任务并并发运行
         # 它会等待所有传入的协程全部完成后才继续向下执行
         await asyncio.gather(
