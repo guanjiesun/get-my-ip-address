@@ -1,10 +1,11 @@
+import axios from 'axios'
+
 /*通过 ipin.io 获取 IP*/
 async function getIpByIpIn() {
     const url = "https://ipin.io/_inquiry/v2/get_client_ip";
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(`IPIN: ${data.ip}`);
+        const r = await axios.get(url, {timeout: 5000});
+        console.log(`IPIN   : ${r.data.ip}`);
     } catch (err) {
         console.error("IPIN 请求失败:", err.message);
     }
@@ -14,9 +15,8 @@ async function getIpByIpIn() {
 async function getIpByHttpBin() {
     const url = "https://httpbin.org/ip";
     try {
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log(`HTTPBin: ${data.origin}`);
+        const r = await axios.get(url, {timeout: 5000});
+        console.log(`HTTPBin: ${r.data.origin}`);
     } catch (err) {
         console.error("HTTPBin 请求失败:", err.message);
     }
@@ -28,5 +28,5 @@ async function main() {
     await Promise.all([getIpByIpIn(), getIpByHttpBin()]);
 }
 
-main();
+await main();
 
