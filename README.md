@@ -10,4 +10,6 @@
     3. JavaScript 多Promise(异步)
 
 ### 注意
-第一次运行 `node js_version.js` 可能会网络超时, 请多运行几次
+    1. Python 中的 async function 返回的是一个 Coroutine 对象
+    2. JavaScript 中的 async function 返回的是一个 Promise 对象
+    3. JavaScript 中的 Promise 对象 类似与 Python 中的 Task 对象，创建之后立即执行, Coroutine 对象被创建之后不会执行，只有被封装为 Task 之后才会执行
